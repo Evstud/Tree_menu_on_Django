@@ -1,0 +1,50 @@
+{% load tmpltgs %}
+<h1><a href="{{ menu_instance.final_url }}">{{ menu_instance.name }}</a></h1>
+{% if menu_instance.children %}
+{% if menu_instance.id in children_ids %}
+<details open >
+    <summary></summary>
+    {% for child in menu_instance.children %}
+    <div class="menu_instance">
+        {% draw_children child.id %}
+        <h3><a href="{{ child.final_url }}">{{ child.name }}</a></h3>
+        {% if child.children %}
+        {% if child.id in children_ids %}
+        <details open >
+            <summary></summary>
+            {% for child2 in child.children %}
+            <div class="menu_instance">
+                {% draw_children child2.id %}
+                <h5><a href="{{ child2.final_url }}">{{ child2.name }}</a></h5>
+
+            </div>
+            {% endfor %}
+        </details>
+        {% else %}
+        <details >
+            <summary></summary>
+            {% for child2 in child.children %}
+            <div class="menu_instance">
+                {% draw_children child2.id %}
+                <a href="{{ child.final_url }}">{{ child2.name }}</a>
+            </div>
+            {% endfor %}
+        </details>
+        {% endif %}
+        {% endif %}
+
+    </div>
+    {% endfor %}
+</details>
+{% else %}
+<details >
+    <summary></summary>
+    {% for child in menu_instance.children %}
+    <div class="menu_instance">
+        {% draw_children child.id %}
+        <a href="{{ child.final_url }}">{{ child.name }}</a>
+    </div>
+    {% endfor %}
+</details>
+{% endif %}
+{% endif %}
